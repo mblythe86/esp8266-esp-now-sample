@@ -7,7 +7,7 @@ extern "C" {
 
 #define WIFI_DEFAULT_CHANNEL 1
 
-uint8_t mac[] = {0x5C,0xCF,0x7F,0x8,0x37,0xC7};
+uint8_t mac[] = {0x5C,0xCF,0x7F,0x18,0xEA,0x84};
 
 void printMacAddress(uint8_t* macaddr) {
 	Serial.print("{");
@@ -22,7 +22,7 @@ void printMacAddress(uint8_t* macaddr) {
 void setup() {
 	pinMode(13, OUTPUT);
 
-	Serial.begin(74880);
+	Serial.begin(115200);
 	Serial.println("Initializing...");
 
 	WiFi.mode(WIFI_AP);
