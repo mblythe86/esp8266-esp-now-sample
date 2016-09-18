@@ -9,6 +9,11 @@ extern "C" {
 
 uint8_t mac[] = {0x5C,0xCF,0x7F,0x18,0xEA,0x84};
 
+uint8_t key[] = {0xD8, 0x55, 0x49, 0x66,
+                 0x46, 0xE8, 0x8b, 0x7c,
+                 0x12, 0xE0, 0xA8, 0x01,
+                 0x35, 0xBE, 0xF6, 0x52 };
+
 void printMacAddress(uint8_t* macaddr) {
 	Serial.print("{");
 	for (int i = 0; i < 6; i++) {
@@ -56,8 +61,10 @@ void setup() {
 		for (int i = 0; i < len; i++) {
 			Serial.print(" 0x");
 			Serial.print(data[i], HEX);
+      data[i]++;
 		}
 		Serial.println("");
+    esp_now_send(mac, data, len);
 	});
 	esp_now_register_send_cb([](uint8_t* macaddr, uint8_t status) {
 		Serial.println("send_cb");
@@ -68,7 +75,7 @@ void setup() {
 		Serial.print("status = "); Serial.println(status);
 	});
 
-	int res = esp_now_add_peer(mac, (uint8_t)ESP_NOW_ROLE_CONTROLLER,(uint8_t)WIFI_DEFAULT_CHANNEL, NULL, 0);
+	int res = esp_now_add_peer(mac, (uint8_t)ESP_NOW_ROLE_CONTROLLER,(uint8_t)WIFI_DEFAULT_CHANNEL, key, 16);
 
 //	esp_now_unregister_recv_cb();
 //	esp_now_deinit();
